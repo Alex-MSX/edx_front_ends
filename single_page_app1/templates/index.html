@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <ul id="nav">
+      <li><a href="#" class="nav-link" data-page="first">First Page</a></li>
+      <li><a href="#" class="nav-link" data-page="second">Second Page</a></li>
+      <li><a href="#" class="nav-link" data-page="third">Third Page</a></li>
+    </ul>
+
+    <hr>
+
+    <div id="body">
+    </div>
+
+
+    <script>
+
+      document.addEventListener('DOMContentLoaded', () => {
+
+        //Al iniciar la página se va por default a /first
+        load_page('first');
+
+        //Darle a cada link el href para cargar las páginas
+        document.querySelectorAll('.nav-link').forEach(link => {
+          link.onclick = () => {
+            load_page(link.dataset.page);
+
+            //Para que no haga submit la página?
+            //return false;
+          };
+        });
+      });
+
+      //función que al ser llamada, crea un request que busca en el servidor app.py la ruta, la envía y ejecuta el método onload
+      function load_page(name) {
+        //creo una nueva request que ejecuta metodo GET y busca la ruta /name en app.py
+        const request = new XMLHttpRequest();
+        request.open('GET', '/' + name);
+
+        //envía el request
+        request.send();
+
+        //despues de ser enviado el request se ejecuta esta parte
+        request.onload = () => {
+          const response = request.responseText;
+          document.querySelector('#body').innerHTML = response;
+
+          //esta funcion cambia la historia de navegación de la pagina a (información que quiero mandar a la página, titulo, url)
+          document.title = name;
+          history.pushState({'title':name, 'text':response},name,name)
+        };
+      };
+
+      window.onpopstate = e => {
+        const data = e.state;
+        document.querySelector('#body').innerHTML = data.text;
+      };
+
+
+    </script>
+  </body>
+</html>

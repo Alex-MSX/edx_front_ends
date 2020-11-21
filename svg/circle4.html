@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+
+    <style media="screen">
+      svg {
+        width: 100%;
+        height: 800px;
+      }
+    </style>
+  </head>
+  <body>
+    <svg id="svg">
+    </svg>
+
+    <!-- Importa la librería D3 js -->
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+
+    <script type="text/javascript">
+      const svg = d3.select("#svg");
+
+      const fondo = svg.append('rect')
+                        .attr('x',100)
+                        .attr('y',10)
+                        .attr('width',200)
+                        .attr('height',500)
+                        .style('fill','black')
+
+      const red = svg.append('circle')
+                      .attr('cx',200)
+                      .attr('cy',100)
+                      .attr('r',70)
+                      .style('fill','grey')
+
+      const yellow = svg.append('circle')
+                        .attr('cx',200)
+                        .attr('cy',260)
+                        .attr('r',70)
+                        .style('fill','grey')
+
+      const green = svg.append('circle')
+                        .attr('cx',200)
+                        .attr('cy',420)
+                        .attr('r',70)
+                        .style('fill','grey')
+
+      //al hacer click en el objeto realiza una transición
+      red.on('click', function() {
+        d3.select(this).transition().duration(500).style('fill','red')
+        yellow.transition().duration(500).style('fill','grey')
+        green.transition().duration(500).style('fill','grey')
+      });
+
+      yellow.on('click', function() {
+        d3.select(this).transition().duration(500).style('fill','yellow')
+        red.transition().duration(500).style('fill','grey')
+        green.transition().duration(500).style('fill','grey')
+      });
+
+      green.on('click', function() {
+        d3.select(this).transition().duration(500).style('fill','green')
+        red.transition().duration(500).style('fill','grey')
+        yellow.transition().duration(500).style('fill','grey')
+      });
+
+    </script>
+  </body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <button id="roll" type="button" name="button">Roll dice</button>
+
+    <ul id="rolls">
+    </ul>
+
+    <!-- Para que funcione Handlebars -->
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+
+    <script type="text/javascript">
+
+      //uso de templates para evitar la repetición de código
+      const template = Handlebars.compile("<li>You rolled a: {{ value }}</li>");
+
+      document.getElementById('roll').onclick = () => {
+        const num = Math.floor(Math.random() * 6 + 1);
+        const content = template({'value':num});
+
+        document.getElementById('rolls').innerHTML += content;
+      };
+
+      //como yo lo hice
+      // document.getElementById('roll').onclick = () => {
+      //   const li = document.createElement('li');
+      //   const num = Math.floor(Math.random() * 6 + 1)
+      //   li.innerHTML = `You rolled a: ${num}`;
+      //
+      //   document.getElementById('rolls').append(li)
+      // };
+
+    </script>
+
+
+  </body>
+</html>

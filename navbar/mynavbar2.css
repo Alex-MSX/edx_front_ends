@@ -1,0 +1,72 @@
+body {
+  font-family: sans-serif;
+}
+
+nav {
+  background: #222;
+  padding: 1px 20px;
+}
+
+ul {
+  list-style-type: none;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+}
+
+a:hover {
+  color: blue;
+}
+
+/* Todos los li dentro de la clase menu */
+.menu li {
+  font-size: 16px;
+  padding: 5px 5px;
+}
+
+/* Para que al colocarme encima no solo sea sobre el texto */
+.menu li a {
+  display: block;
+}
+
+.logo a {
+  font-size: 20px;
+}
+
+.secondary {
+  border-bottom: solid 1px white;
+}
+
+.menu {
+  display: flex; /* Para utilizar flex box en mi nav */
+  flex-wrap: wrap; /* Para que no haya overflow al minimizar */
+  justify-content: space-between;
+  align-items: center; /* Alinear verticalmente cross axis*/
+}
+
+.bars {
+  background: #999;
+  display: inline-block;
+  height: 3px;
+  width: 20px;
+  position: relative;
+}
+
+.bars::before, .bars::after {
+  background: #999;
+  content: "";
+  display: inline-block;
+  height: 3px;
+  width: 20px;
+  position: absolute;
+}
+
+.bars::before {
+  top: 7px;
+}
+
+.bars::after {
+  top: -7px;
+}

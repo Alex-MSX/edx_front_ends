@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+
+  </head>
+  <body>
+    <div id="options" class="row">
+      <label for="color-picker">Color picker</label>
+      <input id="color-picker" type="color">
+      <br><br>
+
+      <label for="thickness-picker">Thickness picker:</label>
+      <input id="thickness-picker" type="range" min="1" max="10" value="3">
+      <br><br>
+
+      <button id="erase">Erase</button>
+    </div>
+
+    <svg id="canvas">
+    </svg>
+
+    <!-- Importamos libreria d3 js -->
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+
+    <script type="text/javascript">
+      const svg = d3.select('#canvas')
+      .attr('height',window.innerHeight)
+      .attr('width',window.innerWidth)
+
+      var isDown = false;
+      let points = [];
+      let lines = [];
+
+      svg.on('mousemove', function() {
+        if (isDown) {
+          const coords = d3.pointer(event);
+          draw_point(coords[0],coords[1],true)
+        };
+      });
+
+      svg.on('mouseup', function() {
+        isDown = false;
+      });
+
+      svg.on('mousedown', function() {
+        isDown = true;
+        const coords = d3.pointer(event);
+        draw_point(coords[0],coords[1],false)
+      });
+
+      document.getElementById('erase').onclick = () => {
+        for (let i = 0; i < points.length; i++) {
+          points[i].remove();
+        }
+
+        for (let i = 0; i < lines.length; i++) {
+          lines[i].remove();
+        }
+
+        points = [];
+        lines = [];
+      };
+
+      function draw_point(x,y,connect) {
+        const thickness = document.getElementById('thickness-picker').value;
+        const color = document.getElementById('color-picker').value;
+
+        if (connect) {
+          const last_point = points[points.length - 1];
+          const line = svg.append('line')
+                          .attr('x1',last_point.attr('cx'))
+                          .attr('y1',last_point.attr('cy'))
+                          .attr('x2',x)
+                          .attr('y2',y)
+                          .attr('stroke-width', 2*thickness)
+                          .style('stroke',color)
+
+          lines.push(line)
+        }
+
+        const point = svg.append('circle')
+                          .attr('cx',x)
+                          .attr('cy',y)
+                          .attr('r',thickness)
+                          .style('fill',color)
+
+        points.push(point);
+      };
+
+    </script>
+  </body>
+</html>

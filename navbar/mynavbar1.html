@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="mynavbar1.css">
+  </head>
+  <body>
+    <div class="container">
+      <a class="item item-menu" href="#" onclick="openNav()">&#9776;</a>
+      <a class="item" href="#">About</a>
+
+      <div class="nav-right">
+        <a class="item" href="#">Login</a>
+        <a class="item" href="#">Register</a>
+      </div>
+    </div>
+
+    <div id="myNav" class="overlay">
+      <a class="closebtn" onclick="closeNav()">&times;</a>
+      <div class="overlay-content">
+        <a href="#">About</a>
+        <a href="#">Services</a>
+        <a href="#">Clients</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+
+    <h1>Hola como estas</h1>
+
+    <script>
+      function openNav() {
+        document.getElementById("myNav").style.width = "100px ";
+      }
+
+      function closeNav() {
+        document.getElementById("myNav").style.width = "0px";
+      }
+    </script>
+  </body>
+</html>

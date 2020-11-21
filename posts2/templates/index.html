@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+      .post{
+        background-color: green;
+        margin: 10px;
+        padding: 20px;
+        border-radius: 10px;
+      }
+
+      .hide{
+        float: right;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="posts">
+    </div>
+
+    <!-- Agrego Handlebars -->
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+
+    <!-- Agrego un scrip que sustituye al código de agregar posts -->
+    <script id="post" type="text/x-handlebars-template">
+      <div class="post">
+        <!-- Para que al cargar el elemento content no lo traiga del servidor -->
+        {% raw -%}
+          {{ content }}
+        {%- endraw %}
+        <button class="hide">Hide</button>
+      </div>
+    </script>
+
+    <script>
+      //variable de inicio de posts
+      let counter = 1;
+
+      //carga 20 posts cada vez
+      const quantity = 20;
+
+      document.addEventListener('DOMContentLoaded', load);
+
+      window.onscroll = () => {
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+          load();
+        };
+      };
+
+      //esto permite agregar a cada boton de la clase hide la funcionalidad onclick
+      document.addEventListener('click', event => {
+        const element = event.target;
+        if (element.className === 'hide') {
+          element.parentElement.remove();
+        };
+      });
+
+      function load() {
+        const start = counter;
+        const end = start + quantity - 1;
+        counter = end + 1;
+
+        //realiza un request al servidor
+        const request = new XMLHttpRequest();
+        request.open('POST','/posts');
+
+        request.onload = () => {
+          const data = JSON.parse(request.responseText);
+          data.forEach(add_post)
+        };
+
+        //añade a la página start y end
+        const data = new FormData();
+        data.append('start', start);
+        data.append('end', end);
+
+        //envia la solicitud al servidor
+        request.send(data);
+      };
+
+      //funcion que agrega cada post al DOM
+      const post_template = Handlebars.compile(document.getElementById('post').innerHTML)
+      function add_post(content) {
+        const post = post_template({'content':content})
+
+        //añade el post al div posts
+        document.querySelector('#posts').innerHTML += post;
+      };
+
+    </script>
+  </body>
+</html>

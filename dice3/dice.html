@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+
+    <style media="screen">
+      img{
+        vertical-align: middle;
+      }
+
+    </style>
+
+  </head>
+  <body>
+    <input id="counter" type="number" name="" value="">
+    <button id="roll" type="button" name="button">Roll dice</button>
+
+
+
+    <ul id="rolls">
+    </ul>
+
+    <!-- Para que funcione Handlebars -->
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+
+    <!-- Para crear un template más profesional -->
+    <script id="result" type="text/x-handlebars-template">
+      <li>
+        You rolled:
+        {{#each values}}
+          <img title='{{ this }}' src='img/{{ this }}.png' alt='{{ this }}' height='40'>
+        {{/each}}
+        (Total: {{ total }})
+
+      </li>
+    </script>
+
+    <script type="text/javascript">
+
+      //uso de templates para evitar la repetición de código
+      const template = Handlebars.compile(document.getElementById('result').innerHTML);
+
+      document.getElementById('roll').onclick = () => {
+        const counter = parseInt(document.getElementById('counter').value);
+        const rolls = [];
+        let total = 0;
+
+        for (let i = 0; i < counter; i++) {
+          const num = Math.floor(Math.random() * 6 + 1);
+          rolls.push(num)
+          total += num;
+        }
+
+        const content = template({'values':rolls, 'total':total});
+
+        document.getElementById('rolls').innerHTML += content;
+      };
+
+    </script>
+
+
+  </body>
+</html>

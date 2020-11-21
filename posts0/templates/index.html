@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+      .post{
+        background-color: blue;
+        margin: 10px;
+        padding: 20px;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="posts">
+    </div>
+
+    <script>
+      //variable de inicio de posts
+      let counter = 1;
+
+      //carga 20 posts cada vez
+      const quantity = 20;
+
+      document.addEventListener('DOMContentLoaded', load);
+
+      window.onscroll = () => {
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+          load();
+        };
+      };
+
+      function load() {
+        const start = counter;
+        const end = start + quantity - 1;
+        counter = end + 1;
+
+        //realiza un request al servidor
+        const request = new XMLHttpRequest();
+        request.open('POST','/posts');
+
+        request.onload = () => {
+          const data = JSON.parse(request.responseText);
+          data.forEach(add_post)
+        };
+
+        //añade a la página start y end
+        const data = new FormData();
+        data.append('start', start);
+        data.append('end', end);
+
+        //envia la solicitud al servidor
+        request.send(data);
+      };
+
+      //funcion que agrega cada post al DOM
+      function add_post(content) {
+        const post = document.createElement('div');
+        post.className = 'post';
+        post.innerHTML = content;
+
+        //añade el post al div posts
+        document.querySelector('#posts').append(post);
+      };
+
+    </script>
+  </body>
+</html>

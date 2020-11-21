@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+
+    <style media="screen">
+      img{
+        vertical-align: middle;
+      }
+
+    </style>
+
+  </head>
+  <body>
+    <button id="roll" type="button" name="button">Roll dice</button>
+    <ul id="rolls">
+    </ul>
+
+    <!-- Para que funcione Handlebars -->
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+
+    <!-- Para crear un template más profesional -->
+    <script id="result" type="text/x-handlebars-template">
+      <li>
+        You rolled a:
+        <img title='{{ value }}' src='img/{{ value }}.png' alt='{{ value }}' height='40'>
+      </li>
+    </script>
+
+    <script type="text/javascript">
+
+      //uso de templates para evitar la repetición de código
+      const template = Handlebars.compile(document.getElementById('result').innerHTML);
+
+      document.getElementById('roll').onclick = () => {
+        const num = Math.floor(Math.random() * 6 + 1);
+        const content = template({'value':num});
+
+        document.getElementById('rolls').innerHTML += content;
+      };
+
+    </script>
+
+
+  </body>
+</html>
